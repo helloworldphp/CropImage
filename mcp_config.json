@@ -1,0 +1,19 @@
+{
+  "name": "image-crop-mcp",
+  "version": "1.0.0",
+  "description": "图片 URL + 像素坐标裁剪，上传阿里云 OSS，返回 cropped / remaining URL",
+  "type": "stdio",
+  "main": "server.py",
+  "command": "python server.py",
+  "dependencies": {
+    "requirements": "requirements.txt"
+  },
+  "env": [
+    "OSS_ACCESS_KEY_ID",
+    "OSS_ACCESS_KEY_SECRET",
+    "OSS_BUCKET_NAME",
+    "OSS_ENDPOINT",
+    "OSS_UPLOAD_PATH_PREFIX"
+  ],
+  "protocolVersion": "2024-11-05"
+}
