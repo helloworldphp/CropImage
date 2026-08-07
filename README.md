@@ -1,14 +1,35 @@
-# Image Crop MCP（魔搭 ModelScope 托管版）
+# Image Crop MCP
 
 图片 URL + 坐标裁剪 → 上传阿里云 OSS → 返回 URL。  
 默认 **STDIO**，供 [ModelScope MCP 广场](https://modelscope.cn/mcp) / 函数计算托管（平台自动转 SSE）。
 
 > 内网生产请继续用原 `cropImage` 服务；本目录是独立的公网托管副本。
 
+## MCP 配置
+
+将以下配置添加到 MCP 客户端（Claude Desktop / Cursor 等）：
+
+```json
+{
+  "mcpServers": {
+    "image-crop-mcp": {
+      "command": "python",
+      "args": ["server.py"],
+      "env": {
+        "OSS_ACCESS_KEY_ID": "YOUR_ACCESS_KEY_ID",
+        "OSS_ACCESS_KEY_SECRET": "YOUR_ACCESS_KEY_SECRET",
+        "OSS_BUCKET_NAME": "YOUR_BUCKET",
+        "OSS_ENDPOINT": "oss-cn-hangzhou.aliyuncs.com",
+        "OSS_UPLOAD_PATH_PREFIX": "crop"
+      }
+    }
+  }
+}
+```
+
 ## 目录
 
 ```
-cropImageMcp/
 ├── server.py          # MCP 入口（默认 stdio）
 ├── crop_service.py    # 裁剪 + OSS
 ├── mcp_config.json    # 魔搭部署配置
@@ -33,7 +54,7 @@ cropImageMcp/
 
 ## 发布到 ModelScope
 
-1. 将本目录推到 GitHub（不要包含 `.env`）
+1. 将本目录内容推到 GitHub **仓库根目录**（不要包含 `.env`）
 2. 打开 [MCP 广场](https://modelscope.cn/mcp) → **创建 MCP 服务**
 3. 填写：
    - **类型**：STDIO
@@ -48,7 +69,6 @@ cropImageMcp/
 ## 本地调试
 
 ```bash
-cd cropImageMcp
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
